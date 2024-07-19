@@ -17,12 +17,26 @@ const App = () => {
     )
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
         username, password,
       })
+
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      )
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -50,7 +64,7 @@ const App = () => {
         <>
           <h2>blogs</h2>
           <p>{user.name} logged in</p>
-          
+
           {blogs.map(blog => {
             const blogUser = blog.user ? blog.user : false;
             if (blogUser && blogUser.name === user.name) {
