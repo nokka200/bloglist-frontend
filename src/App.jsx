@@ -31,14 +31,16 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)*/
+      console.log('Virheiden virhe', exception)
     }
   }
 
 
   return (
     <div>
+      <h1>Blogs</h1>
+
       {!user && <LoginForm
-        user={user}
         handleLogin={handleLogin}
         username={username}
         setUsername={setUsername}
@@ -49,6 +51,8 @@ const App = () => {
       {user && (
         <>
           <h2>blogs</h2>
+          <p>{user.name} logged in</p>
+          <p>{user.blogs} blogs</p>
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
         </>
       )}
