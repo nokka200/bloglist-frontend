@@ -38,8 +38,6 @@ const App = () => {
 
   return (
     <div>
-      <h1>Blogs</h1>
-
       {!user && <LoginForm
         handleLogin={handleLogin}
         username={username}
@@ -52,8 +50,13 @@ const App = () => {
         <>
           <h2>blogs</h2>
           <p>{user.name} logged in</p>
-          <p>{user.blogs} blogs</p>
-          {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+          
+          {blogs.map(blog => {
+            const blogUser = blog.user ? blog.user : false;
+            if (blogUser && blogUser.name === user.name) {
+              return <Blog key={blog.id} blog={blog} />
+            }
+          })}
         </>
       )}
     </div>
