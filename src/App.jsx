@@ -49,6 +49,11 @@ const App = () => {
     }
   }
 
+  const handleLogout = () => {
+    window.localStorage.clear(); // Clear local storage
+    setUser(null); // Update user state to null
+  }
+
 
   return (
     <div>
@@ -63,7 +68,8 @@ const App = () => {
       {user && (
         <>
           <h2>blogs</h2>
-          <p>{user.name} logged in</p>
+          <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+          
 
           {blogs.map(blog => {
             const blogUser = blog.user ? blog.user : false;
