@@ -3,14 +3,14 @@ import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import CreateNewBlog  from './components/CreateNewBlog'
-
+import CreateNewBlog from './components/CreateNewBlog'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState(false)
 
   // Blogin lisäystä varten
   const [blogTitle, setBlogTitle] = useState('')
@@ -46,12 +46,13 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setErrorMessage(false)
     } catch (exception) {
-      /*setErrorMessage('wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)*/
       console.log('Virheiden virhe', exception)
+      setErrorMessage(true)
+      setTimeout(() => {
+        setErrorMessage(false)
+      }, 2000)
     }
   }
 
@@ -94,7 +95,9 @@ const App = () => {
         username={username}
         setUsername={setUsername}
         password={password}
-        setPassword={setPassword} />}
+        setPassword={setPassword}
+        errorMessage={errorMessage}
+      />}
       
       
 

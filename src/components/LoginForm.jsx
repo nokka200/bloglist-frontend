@@ -1,10 +1,12 @@
 import React from 'react';
+import ErrorMessage from './ErrorMessage';
 
-const LoginForm = ({ handleLogin, username, setUsername, password, setPassword }) => {
+const LoginForm = ({ handleLogin, username, setUsername, password, setPassword, errorMessage }) => {
 
     return (
         <div>
             <h2>Log in to application</h2>
+            {errorMessage && <ErrorMessage />}
             <form onSubmit={handleLogin}>
                 <div>
                     username
