@@ -21,7 +21,6 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
-    console.log('Getall Trigger')
   }, [])
 
   useEffect(() => {
@@ -62,7 +61,7 @@ const App = () => {
   }
 
   // Hoitaa uuden blogin lisäyksen tietokantaan
-  const handleNewBlog = (event) => {
+  const handleNewBlog = async (event) => {
     //event.preventDefault()
 
     const newBlog = {
@@ -76,7 +75,15 @@ const App = () => {
     setBlogTitle('')
     setBlogUrl('')
 
-    blogService.create(newBlog)
+    try {
+      const savedBlog = await blogService.create(newBlog);
+
+      setBlogs(currentBlogs => [...currentBlogs, savedBlog]);
+      console.log('Saved blog', savedBlog);
+    } catch (error) {
+      console.log('Error saving blog', error);
+
+    }
   }
 
 
