@@ -21,6 +21,7 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
+    console.log('Getall Trigger')
   }, [])
 
   useEffect(() => {
@@ -62,10 +63,6 @@ const App = () => {
 
   // Hoitaa uuden blogin lisäyksen tietokantaan
   const handleNewBlog = (event) => {
-    console.log('handleNewBlog')
-    console.log('blogTitle', blogTitle)
-    console.log('blogAuthor', blogAuthor)
-    console.log('blogUrl', blogUrl)
     event.preventDefault()
 
     const newBlog = {
