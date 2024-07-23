@@ -63,7 +63,7 @@ const App = () => {
 
   // Hoitaa uuden blogin lisäyksen tietokantaan
   const handleNewBlog = (event) => {
-    event.preventDefault()
+    //event.preventDefault()
 
     const newBlog = {
       title: blogTitle,
