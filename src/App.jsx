@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
@@ -19,6 +19,8 @@ const App = () => {
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -67,7 +69,7 @@ const App = () => {
   // Hoitaa uuden blogin lisäyksen tietokantaan
   const handleNewBlog = async (event) => {
     event.preventDefault()
-
+    blogFormRef.current.toggleVisibility()
     const newBlog = {
       title: blogTitle,
       author: blogAuthor,
@@ -114,7 +116,7 @@ const App = () => {
           {successMessage && <SuccessMessage title={blogTitle} author={blogAuthor} />}
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
 
-          <Togglable buttonLabel='new note'>
+          <Togglable buttonLabel='new note' ref={blogFormRef}>
             <CreateNewBlog
               handleNewBlog={handleNewBlog}
               blogTitle={blogTitle}
