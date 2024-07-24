@@ -5,6 +5,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import CreateNewBlog from './components/CreateNewBlog'
 import SuccessMessage from './components/SuccessMessage'
+import Togglable from './components/Toggable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -104,24 +105,26 @@ const App = () => {
         setPassword={setPassword}
         errorMessage={errorMessage}
       />}
-      
-      
+
+
 
       {user && (
         <>
           <h2>blogs</h2>
           {successMessage && <SuccessMessage title={blogTitle} author={blogAuthor} />}
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-          
-          <CreateNewBlog
-            handleNewBlog={handleNewBlog}
-            blogTitle={blogTitle}
-            blogAuthor={blogAuthor}
-            blogUrl={blogUrl}
-            setBlogTitle={setBlogTitle}
-            setBlogAuthor={setBlogAuthor}
-            setBlogUrl={setBlogUrl}
-          />
+
+          <Togglable buttonLabel='new note'>
+            <CreateNewBlog
+              handleNewBlog={handleNewBlog}
+              blogTitle={blogTitle}
+              blogAuthor={blogAuthor}
+              blogUrl={blogUrl}
+              setBlogTitle={setBlogTitle}
+              setBlogAuthor={setBlogAuthor}
+              setBlogUrl={setBlogUrl}
+            />
+          </Togglable>
 
           {blogs.map(blog => {
             const blogUser = blog.user ? blog.user : false;
@@ -131,7 +134,7 @@ const App = () => {
           })}
         </>
       )}
-      
+
     </div>
   )
 }
