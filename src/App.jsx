@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import CreateNewBlog from './components/CreateNewBlog'
+import SuccessMessage from './components/SuccessMessage'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +12,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(false)
 
   // Blogin lisäystä varten
   const [blogTitle, setBlogTitle] = useState('')
@@ -63,7 +65,7 @@ const App = () => {
 
   // Hoitaa uuden blogin lisäyksen tietokantaan
   const handleNewBlog = async (event) => {
-    //event.preventDefault()
+    event.preventDefault()
 
     const newBlog = {
       title: blogTitle,
@@ -81,6 +83,10 @@ const App = () => {
 
       setBlogs(currentBlogs => [...currentBlogs, savedBlog]);
       console.log('Saved blog', savedBlog);
+      setSuccessMessage(true)
+      setTimeout(() => {
+        setSuccessMessage(false)
+      }, 5000)
     } catch (error) {
       console.log('Error saving blog', error);
 
@@ -104,6 +110,7 @@ const App = () => {
       {user && (
         <>
           <h2>blogs</h2>
+          {successMessage && <SuccessMessage title={blogTitle} author={blogAuthor} />}
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
           
           <CreateNewBlog
