@@ -77,23 +77,20 @@ const App = () => {
       likes: 0
     }
 
+
+    const savedBlog = await blogService.create(newBlog);
+    setBlogs(currentBlogs => [...currentBlogs, savedBlog]);
+    console.log('Saved blog', savedBlog);
+
+
+    setSuccessMessage(true)
+    setTimeout(() => {
+      setSuccessMessage(false)
+    }, 5000)
     setBlogAuthor('')
     setBlogTitle('')
     setBlogUrl('')
 
-    try {
-      const savedBlog = await blogService.create(newBlog);
-
-      setBlogs(currentBlogs => [...currentBlogs, savedBlog]);
-      console.log('Saved blog', savedBlog);
-      setSuccessMessage(true)
-      setTimeout(() => {
-        setSuccessMessage(false)
-      }, 5000)
-    } catch (error) {
-      console.log('Error saving blog', error);
-
-    }
   }
 
 

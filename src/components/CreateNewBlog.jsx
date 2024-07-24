@@ -2,6 +2,10 @@ import React from 'react';
 
 const CreateNewBlog = ({handleNewBlog, blogTitle, blogAuthor, blogUrl, setBlogTitle, setBlogAuthor, setBlogUrl}) => { 
 
+    const addBlog = (event) => { 
+
+    }
+    
     return (
         <div>
             <h2>create new</h2>
