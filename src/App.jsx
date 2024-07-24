@@ -93,6 +93,21 @@ const App = () => {
 
   }
 
+  const addBlog = async (blog) => { 
+    blogFormRef.current.toggleVisibility()
+    const savedBlog = await blogService.create(blog);
+    setBlogs(currentBlogs => [...currentBlogs, savedBlog]);
+
+    setBlogTitle(blog.title)
+    setBlogAuthor(blog.author)
+
+    setSuccessMessage(true)
+    setTimeout(() => {
+      setSuccessMessage(false)
+    }, 5000)
+
+  }
+
 
   return (
     <div>
@@ -115,13 +130,7 @@ const App = () => {
 
           <Togglable buttonLabel='new note' ref={blogFormRef}>
             <CreateNewBlog
-              handleNewBlog={handleNewBlog}
-              blogTitle={blogTitle}
-              blogAuthor={blogAuthor}
-              blogUrl={blogUrl}
-              setBlogTitle={setBlogTitle}
-              setBlogAuthor={setBlogAuthor}
-              setBlogUrl={setBlogUrl}
+              createBlog={addBlog}
             />
           </Togglable>
 
