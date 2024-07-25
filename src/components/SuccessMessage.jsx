@@ -1,9 +1,9 @@
-const SuccessMessage = ({ title, author }) => { 
-    return (
-        <div className="success">
+const SuccessMessage = ({ title, author }) => {
+  return (
+    <div className="success">
         a new blog {title} by {author} added
-        </div>
-    );
+    </div>
+  )
 }
 
-export default SuccessMessage;
+export default SuccessMessage

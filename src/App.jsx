@@ -35,7 +35,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const blogs = await blogService.getAll()  
+      const blogs = await blogService.getAll()
       setBlogs(blogs)
     }
     fetchBlogs()
@@ -70,8 +70,8 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    window.localStorage.clear(); // Clear local storage
-    setUser(null); // Update user state to null
+    window.localStorage.clear() // Clear local storage
+    setUser(null) // Update user state to null
   }
 
   // Hoitaa uuden blogin lisäyksen tietokantaan
@@ -86,9 +86,9 @@ const App = () => {
     }
 
 
-    const savedBlog = await blogService.create(newBlog);
-    setBlogs(currentBlogs => [...currentBlogs, savedBlog]);
-    console.log('Saved blog', savedBlog);
+    const savedBlog = await blogService.create(newBlog)
+    setBlogs(currentBlogs => [...currentBlogs, savedBlog])
+    console.log('Saved blog', savedBlog)
 
 
     setSuccessMessage(true)
@@ -103,8 +103,8 @@ const App = () => {
 
   const addBlog = async (blog) => {
     blogFormRef.current.toggleVisibility()
-    const savedBlog = await blogService.create(blog);
-    setBlogs(currentBlogs => [...currentBlogs, savedBlog]);
+    const savedBlog = await blogService.create(blog)
+    setBlogs(currentBlogs => [...currentBlogs, savedBlog])
 
     setBlogTitle(blog.title)
     setBlogAuthor(blog.author)
@@ -123,7 +123,7 @@ const App = () => {
     console.log('blogs', blogs)
   }
 
-  const deleteBlog = async (id) => { 
+  const deleteBlog = async (id) => {
     const result = window.confirm('Haluatko varmasti poistaa blogin?')
     if (result) {
       await blogService.deleteBlog(id)
@@ -161,13 +161,13 @@ const App = () => {
               createBlog={addBlog}
             />
           </Togglable>
-          
+
           {userBlogs
             .sort((a, b) => b.likes - a.likes)
             .map(blog => {
               return <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog}/>
             })}
-            
+
         </>
       )}
     </div>
@@ -177,7 +177,7 @@ const App = () => {
 export default App
 
 
-{/* tämä map aiheuttaa ongelmat, miksi ei päivity kunnolla 
+{/* tämä map aiheuttaa ongelmat, miksi ei päivity kunnolla
 
           {blogs.map(blog => {
             const blogUser = blog.user ? blog.user : false;

@@ -22,7 +22,7 @@ const create = async newObject => {
   return response.data
 }
 
-const updateLikes = async (id, newObject) => { 
+const updateLikes = async (id, newObject) => {
   const config = {
     headers: { Authorization: token },
   }

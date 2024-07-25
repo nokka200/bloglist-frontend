@@ -17,7 +17,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
     display: visible ? '' : 'none'
   }
 
-  const updateLikes = async () => { 
+  const updateLikes = async () => {
     const updatedBlog = {
       title: blog.title,
       url: blog.url,
@@ -28,7 +28,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
     await updateBlog(blog.id, updatedBlog)
   }
 
-  const removeBlog = async () => { 
+  const removeBlog = async () => {
     await deleteBlog(blog.id)
   }
 
