@@ -6,6 +6,7 @@ import loginService from './services/login'
 import CreateNewBlog from './components/CreateNewBlog'
 import SuccessMessage from './components/SuccessMessage'
 import Togglable from './components/Toggable'
+import MapBlogs from './components/MapBlogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +15,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMessage, setSuccessMessage] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   // Blogin lisäystä varten
   const [blogTitle, setBlogTitle] = useState('')
@@ -23,19 +25,26 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
-  }, [])
-
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.token)
     }
+    setLoading(false)
   }, [])
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogs = await blogService.getAll()  
+      setBlogs(blogs)
+    }
+    fetchBlogs()
+  }, [])
+
+
+
+  // setBlogs(blogs.filter(blog => blog.user.username === user.username))
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -93,7 +102,7 @@ const App = () => {
 
   }
 
-  const addBlog = async (blog) => { 
+  const addBlog = async (blog) => {
     blogFormRef.current.toggleVisibility()
     const savedBlog = await blogService.create(blog);
     setBlogs(currentBlogs => [...currentBlogs, savedBlog]);
@@ -108,12 +117,16 @@ const App = () => {
 
   }
 
-  const updateBlog = async (id, blog) => { 
-    const updatedBlog = await blogService.updateLikes(id, blog);
-
-    setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog));
+  const updateBlog = async (id, blog) => {
+    const updatedBlog = await blogService.updateLikes(id, blog)
+    console.log('updatedBlog', updatedBlog)
+    setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
+    console.log('blogs', blogs)
   }
 
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div>
@@ -139,18 +152,33 @@ const App = () => {
               createBlog={addBlog}
             />
           </Togglable>
-
-          {blogs.map(blog => {
-            const blogUser = blog.user ? blog.user : false;
-            if (blogUser && blogUser.name === user.name) {
+          
+          {blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map(blog => {
               return <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
-            }
-          })}
+            })}
+            
         </>
       )}
-
     </div>
   )
 }
 
 export default App
+
+
+{/* tämä map aiheuttaa ongelmat, miksi ei päivity kunnolla 
+
+          {blogs.map(blog => {
+            const blogUser = blog.user ? blog.user : false;
+            if (blogUser && blogUser.name === user.name) {
+              console.log('rerender blogs')
+              return <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+            }
+          })}
+          {blogs.map(blog => {
+            console.log('blogs', blog.user.username)
+            console.log('user', user.username)
+            return <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+          })}*/}
