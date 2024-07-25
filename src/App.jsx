@@ -6,7 +6,6 @@ import loginService from './services/login'
 import CreateNewBlog from './components/CreateNewBlog'
 import SuccessMessage from './components/SuccessMessage'
 import Togglable from './components/Toggable'
-import MapBlogs from './components/MapBlogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -124,9 +123,19 @@ const App = () => {
     console.log('blogs', blogs)
   }
 
-  if (loading) {
-    return <div>Loading...</div>
+  const deleteBlog = async (id) => { 
+    const result = window.confirm('Haluatko varmasti poistaa blogin?')
+    if (result) {
+      await blogService.deleteBlog(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+    }
   }
+
+  if (loading) {
+    return <div>ladataan...</div>
+  }
+
+  const userBlogs = blogs.filter(blog => blog.user && blog.user.username === user.username)
 
   return (
     <div>
@@ -153,10 +162,10 @@ const App = () => {
             />
           </Togglable>
           
-          {blogs
+          {userBlogs
             .sort((a, b) => b.likes - a.likes)
             .map(blog => {
-              return <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+              return <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog}/>
             })}
             
         </>
