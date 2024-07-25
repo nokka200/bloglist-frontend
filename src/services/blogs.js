@@ -27,4 +27,4 @@ const updateLikes = async (id, newObject) => {
   return response.data
 }
 
-export default { getAll, setToken, create }
+export default { getAll, setToken, create, updateLikes }
